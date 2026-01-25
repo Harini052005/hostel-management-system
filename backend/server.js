@@ -1,23 +1,58 @@
 const express = require("express");
-const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
 
+const connectDB = require("./config/db");
+const logger = require("./middleware/logger");
+const { errorHandler } = require("./middleware/errorMiddleware");
+
+const authRoutes = require("./routes/authRoutes");
+
 const app = express();
 
-app.use(cors());
+/* ======================
+   DATABASE CONNECTION
+====================== */
+connectDB();
+
+/* ======================
+   GLOBAL MIDDLEWARE
+====================== */
+
+// 👇 Logger (should be first – logs all requests)
+app.use(logger);
+
+// 👇 CORS (before routes)
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
+
+// 👇 Body parser
 app.use(express.json());
 
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log("MongoDB connected"))
-  .catch(err => console.log(err));
+/* ======================
+   ROUTES
+====================== */
+app.use("/api/v1/auth", authRoutes);
 
+// Test route
 app.get("/", (req, res) => {
   res.send("Smart Hostel API running");
 });
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+/* ======================
+   ERROR HANDLER
+====================== */
+// 👇 MUST be last
+app.use(errorHandler);
 
-const authRoutes = require("./routes/authRoutes");
-app.use("/api/auth", authRoutes);
+/* ======================
+   SERVER START
+====================== */
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () =>
+  console.log(`Server running on port ${PORT}`)
+);
