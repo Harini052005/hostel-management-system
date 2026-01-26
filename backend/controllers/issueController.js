@@ -7,7 +7,16 @@ const Issue = require("../modules/Issue");
  */
 exports.reportIssue = async (req, res) => {
   try {
+    if (!req.body) {
+      return res.status(400).json({ message: "Request body missing" });
+    }
+    
     const { title, description, category, priority, visibility } = req.body;
+    
+    if (!title || !description) {
+      return res.status(400).json({ message: "Required fields missing" });
+    }
+    
 
     const issue = await Issue.create({
       title,
@@ -121,3 +130,4 @@ exports.assignIssue = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+

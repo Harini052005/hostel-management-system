@@ -10,6 +10,9 @@ const authRoutes = require("./routes/authRoutes");
 
 const app = express();
 
+app.use(express.json()); 
+app.use(express.urlencoded({ extended: true }));
+
 // ISSUE ROUTES CONNECTION
 
 const issueRoutes = require("./routes/issueRoutes");
