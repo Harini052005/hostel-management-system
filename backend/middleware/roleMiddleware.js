@@ -1,4 +1,5 @@
-const roleMiddleware = (...allowedRoles) => {
+// @ts-ignore
+const authorize = (...allowedRoles) => {
   return (req, res, next) => {
     if (!allowedRoles.includes(req.user.role)) {
       return res.status(403).json({
@@ -9,4 +10,4 @@ const roleMiddleware = (...allowedRoles) => {
   };
 };
 
-module.exports = roleMiddleware;
+module.exports = { authorize };
