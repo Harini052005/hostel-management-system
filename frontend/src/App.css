@@ -1,0 +1,42 @@
+/* ---------- App Wrapper ---------- */
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------- Page Wrapper ---------- */
+.page-container {
+  flex: 1;
+  padding: 24px;
+}
+
+/* ---------- Centered Layout ---------- */
+.centered {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ---------- Page Title ---------- */
+.page-title {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 16px;
+}
+
+/* ---------- Sub Text ---------- */
+.page-subtext {
+  font-size: 0.95rem;
+  color: #6b7280;
+  margin-bottom: 24px;
+}
+
+/* ---------- Card Base (optional fallback) ---------- */
+.base-card {
+  background-color: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.05);
+}
