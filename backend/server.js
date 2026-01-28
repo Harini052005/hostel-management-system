@@ -18,11 +18,14 @@ app.use(express.urlencoded({ extended: true }));
 const issueRoutes = require("./routes/issueRoutes");
 app.use("/api/v1/issues", issueRoutes);
 
-//ANNOUNCEMENTS CONNECTION
-const announcementRoutes = require("./routes/announcementRoutes");
+// ANNOUNCEMENTS ROUTES CONNECTION
 
+const announcementRoutes = require("./routes/announcementRoutes");
 app.use("/api/v1/announcements", announcementRoutes);
 
+// LOSTFOUND ROUTES CONNECTION
+const lostFoundRoutes = require("./routes/lostFoundRoutes");
+app.use("/api/lost-found", lostFoundRoutes);
 
 
 /* ======================

@@ -1,7 +1,9 @@
+
 import "./dashboard.css";
 
 const Dashboard = () => {
   return (
+    
     <div className="min-h-screen bg-gray-100">
       {/* Navbar */}
       <nav className="bg-white shadow-md px-6 py-4 flex justify-between items-center">
@@ -47,8 +49,10 @@ const Dashboard = () => {
           </div>
         </div>
       </main>
+      
     </div>
   );
+ 
 };
 
 export default Dashboard;
