@@ -86,12 +86,15 @@ export default function Issues() {
             <option value="high">High</option>
             <option value="emergency">Emergency</option>
           </select>
-
-          <label className="text-sm text-gray-600">Show</label>
-          <select value={viewFilter} onChange={(e) => setViewFilter(e.target.value)} className="border px-2 py-1 rounded">
-            <option value="all">All issues</option>
-            <option value="my">My issues</option>
-          </select>
+          {user?.role !== "admin" && user?.role !== "warden" && (
+            <>
+              <label className="text-sm text-gray-600">Show</label>
+              <select value={viewFilter} onChange={(e) => setViewFilter(e.target.value)} className="border px-2 py-1 rounded">
+                <option value="all">All issues</option>
+                <option value="my">My issues</option>
+              </select>
+            </>
+          )}
         </div>
       </div>
 
@@ -108,7 +111,6 @@ export default function Issues() {
                 <th className="px-4 py-2 text-left">Status</th>
                 <th className="px-4 py-2 text-left">Reported By</th>
                 <th className="px-4 py-2 text-left">Hostel/Block</th>
-                <th className="px-4 py-2 text-left">Location</th>
                 <th className="px-4 py-2 text-left">Created</th>
               </tr>
             </thead>
@@ -143,7 +145,6 @@ export default function Issues() {
                     </td>
                     <td className="px-4 py-3">{i.reportedBy?.name || 'N/A'}</td>
                     <td className="px-4 py-3">{hostelBlockText(i)}</td>
-                    <td className="px-4 py-3">{locationText(i)}</td>
                     <td className="px-4 py-3 text-sm text-gray-500">{new Date(i.createdAt).toLocaleString()}</td>
                   </tr>
                 </Fragment>
