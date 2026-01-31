@@ -11,7 +11,7 @@ exports.reportIssue = async (req, res) => {
       return res.status(400).json({ message: "Request body missing" });
     }
     
-    const { title, description, category, priority, visibility } = req.body;
+    const { title, description, category, priority, visibility, block } = req.body;
     
     if (!title || !description) {
       return res.status(400).json({ message: "Required fields missing" });
@@ -26,7 +26,7 @@ exports.reportIssue = async (req, res) => {
       visibility,
       reportedBy: req.user.id,
       hostel: req.user.hostel,
-      block: req.user.block,
+      block: block || req.user.block,
       room: req.user.room
     });
 

@@ -12,41 +12,41 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-white shadow px-6 py-3 flex items-center justify-between">
+    <nav className="bg-white shadow px-7 py-5 flex items-center justify-between">
       <div className="flex items-center space-x-6">
         <Link
           to={user?.role === "student" ? "/dashboard" : "/admin/dashboard"}
-          className="text-xl font-bold text-indigo-600"
+          className="text-3xl font-bold text-indigo-800"
         >
           Hostel Management
         </Link>
 
         {user && user.role === "student" && (
           <>
-            <Link to="/report-issue" className="text-sm text-gray-700 hover:text-indigo-600">
+            <Link to="/report-issue" className="text-md text-gray-700 hover:text-indigo-600">
               Report New Issue
             </Link>
-            <Link to="/report-lostfound" className="text-sm text-gray-700 hover:text-indigo-600">
+            <Link to="/report-lostfound" className="text-md text-gray-700 hover:text-indigo-600">
               Report Lost/Found
             </Link>
-            <Link to="/lost-found" className="text-sm text-gray-700 hover:text-indigo-600">
+            <Link to="/lost-found" className="text-md text-gray-700 hover:text-indigo-600">
               Lost & Found
             </Link>
-            <Link to="/issues" className="text-sm text-gray-700 hover:text-indigo-600">
-              My Issues
+            <Link to="/issues" className="text-md text-gray-700 hover:text-indigo-600">
+              Issues
             </Link>
           </>
         )}
 
         {user && (user.role === "admin" || user.role === "warden") && (
           <>
-            <Link to="/admin/dashboard" className="text-sm text-gray-700 hover:text-indigo-600">
+            <Link to="/admin/dashboard" className="text-md text-gray-700 hover:text-indigo-600">
               Admin Panel
             </Link>
-            <Link to="/issues" className="text-sm text-gray-700 hover:text-indigo-600">
+            <Link to="/issues" className="text-md text-gray-700 hover:text-indigo-600">
               Manage Issues
             </Link>
-            <Link to="/admin/announcements" className="text-sm text-gray-700 hover:text-indigo-600">
+            <Link to="/admin/announcements" className="text-md text-gray-700 hover:text-indigo-600">
               Create Announcement
             </Link>
           </>
@@ -54,11 +54,11 @@ const Navbar = () => {
       </div>
 
       <div className="flex items-center space-x-4">
-        {user && <span className="text-sm text-gray-600">Hi, {user.name}</span>}
+        {user && <span className="text-xl font-bold text-gray-800">Hi, {user.name}</span>}
         {user && (
           <button
             onClick={handleLogout}
-            className="text-sm bg-indigo-600 text-white px-3 py-1 rounded-md hover:bg-indigo-700"
+            className="text-md bg-indigo-600 text-white px-5 py-3 rounded-xl hover:bg-indigo-700"
           >
             Logout
           </button>

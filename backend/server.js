@@ -13,14 +13,11 @@ const app = express();
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: true }));
 
-/* ======================
-   GLOBAL MIDDLEWARE
-====================== */
 
-// Logger (should be first – logs all requests)
+// Logger 
 app.use(logger);
 
-// CORS (must be before routes so preflight is handled)
+// CORS 
 app.use(
   cors({
     origin: "http://localhost:5173",
@@ -45,14 +42,9 @@ const lostFoundRoutes = require("./routes/lostFoundRoutes");
 app.use("/api/lost-found", lostFoundRoutes);
 
 
-/* ======================
-   DATABASE CONNECTION
-====================== */
 connectDB();
 
-/* ======================
-   ROUTES
-====================== */
+
 app.use("/api/v1/auth", authRoutes);
 
 // Test route
@@ -60,15 +52,9 @@ app.get("/", (req, res) => {
   res.send("Smart Hostel API running");
 });
 
-/* ======================
-   ERROR HANDLER
-====================== */
-// 👇 MUST be last
+
 app.use(errorHandler);
 
-/* ======================
-   SERVER START
-====================== */
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () =>
   console.log(`Server running on port ${PORT}`)
