@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /* ---------- App Wrapper ---------- */
 .app-container {
   min-height: 100vh;
