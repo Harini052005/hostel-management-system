@@ -7,56 +7,43 @@ const logger = require("./middleware/logger");
 const { errorHandler } = require("./middleware/errorMiddleware");
 
 const authRoutes = require("./routes/authRoutes");
+const issueRoutes = require("./routes/issueRoutes");
+const announcementRoutes = require("./routes/announcementRoutes");
+const lostFoundRoutes = require("./routes/lostFoundRoutes");
 
 const app = express();
 
-app.use(express.json()); 
+// Body parsers
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
-// Logger 
+// Logger
 app.use(logger);
 
-// CORS 
+// ✅ CORS (TEMP: allow all origins)
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: true,
     credentials: true,
-    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
-// ISSUE ROUTES CONNECTION
-
-const issueRoutes = require("./routes/issueRoutes");
-app.use("/api/v1/issues", issueRoutes);
-
-// ANNOUNCEMENTS ROUTES CONNECTION
-
-const announcementRoutes = require("./routes/announcementRoutes");
-app.use("/api/v1/announcements", announcementRoutes);
-
-// LOSTFOUND ROUTES CONNECTION
-const lostFoundRoutes = require("./routes/lostFoundRoutes");
-app.use("/api/lost-found", lostFoundRoutes);
-
-
-connectDB();
-
-
+// Routes
 app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/issues", issueRoutes);
+app.use("/api/v1/announcements", announcementRoutes);
+app.use("/api/lost-found", lostFoundRoutes);
 
 // Test route
 app.get("/", (req, res) => {
-  res.send("Smart Hostel API running");
+  res.send("Smart Hostel API running 🚀");
 });
 
-
+// Error handler
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () =>
-  console.log(`Server running on port ${PORT}`)
-);
+// DB connection
+connectDB();
 
+// ✅ EXPORT APP (VERY IMPORTANT)
+module.exports = app;
