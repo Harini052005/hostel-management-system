@@ -1,19 +1,30 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import api from "../services/api";
 import { useNavigate, Link } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 import "./register.css";
 
 const Register = () => {
-  const [form, setForm] = useState({});
+  const [form, setForm] = useState({ role: "student" });
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
 
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
-      await api.post("/auth/register", form);
-      navigate("/");
+      const res = await api.post("/v1/auth/register", form);
+      // auto-login
+      login(res.data.user, res.data.token);
+
+      // redirect based on role
+      if (res.data.user.role === "student") {
+        navigate("/dashboard");
+      } else {
+        navigate("/admin/dashboard");
+      }
     } catch (err) {
-      alert("Registration failed");
+      const msg = err?.response?.data?.message || "Registration failed";
+      alert(msg);
     }
   };
 
@@ -51,6 +62,16 @@ const Register = () => {
             setForm({ ...form, password: e.target.value })
           }
         />
+
+        <label className="register-label">Role</label>
+        <select
+          className="register-input"
+          value={form.role}
+          onChange={(e) => setForm({ ...form, role: e.target.value })}
+        >
+          <option value="student">Student</option>
+          <option value="admin">Admin</option>
+        </select>
 
         <button className="register-btn" type="submit">
           Register

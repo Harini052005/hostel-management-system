@@ -13,6 +13,23 @@ const app = express();
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: true }));
 
+/* ======================
+   GLOBAL MIDDLEWARE
+====================== */
+
+// Logger (should be first – logs all requests)
+app.use(logger);
+
+// CORS (must be before routes so preflight is handled)
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
+
 // ISSUE ROUTES CONNECTION
 
 const issueRoutes = require("./routes/issueRoutes");
@@ -32,24 +49,6 @@ app.use("/api/lost-found", lostFoundRoutes);
    DATABASE CONNECTION
 ====================== */
 connectDB();
-
-/* ======================
-   GLOBAL MIDDLEWARE
-====================== */
-
-// 👇 Logger (should be first – logs all requests)
-app.use(logger);
-
-// 👇 CORS (before routes)
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-    credentials: true,
-  })
-);
-
-// 👇 Body parser
-app.use(express.json());
 
 /* ======================
    ROUTES

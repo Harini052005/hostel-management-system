@@ -19,9 +19,18 @@ const announcementSchema = new mongoose.Schema(
       required: true,
     },
 
+    // Optional targeting by hostel and block
+    hostel: {
+      type: String,
+    },
+
+    block: {
+      type: String,
+    },
+
     targetRole: {
       type: String,
-      enum: ["student", "warden", "all"],
+      enum: ["student", "warden", "admin", "all"],
       default: "all",
     },
 

@@ -5,8 +5,9 @@ export default function ReportIssue() {
   const [formData, setFormData] = useState({
     title: "",
     description: "",
-    type: "lost",
-    location: "",
+    category: "plumbing",
+    priority: "low",
+    visibility: "public",
   });
 
   const [loading, setLoading] = useState(false);
@@ -25,17 +26,19 @@ export default function ReportIssue() {
     setMessage("");
 
     try {
-      await api.post("/lost-found", formData);
+      await api.post("/v1/issues", formData);
 
-      setMessage("✅ Item reported successfully");
+      setMessage("✅ Issue reported successfully");
       setFormData({
         title: "",
         description: "",
-        type: "lost",
-        location: "",
+        category: "plumbing",
+        priority: "low",
+        visibility: "public",
       });
     } catch (error) {
-      setMessage("❌ Failed to report item");
+      const msg = error?.response?.data?.message || "Failed to report issue";
+      setMessage(`❌ ${msg}`);
     } finally {
       setLoading(false);
     }
@@ -47,10 +50,10 @@ export default function ReportIssue() {
 
         {/* Header */}
         <h2 className="text-3xl font-bold text-gray-800 text-center">
-          Lost & Found
+          Report an Issue
         </h2>
         <p className="text-gray-500 text-center mt-1 mb-6">
-          Report a lost item or inform about a found one
+          Report maintenance issues (plumbing, electrical, cleanliness, etc.)
         </p>
 
         {/* Message */}
@@ -63,10 +66,9 @@ export default function ReportIssue() {
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-5">
 
-          {/* Item Title */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Item Title
+              Title
             </label>
             <input
               type="text"
@@ -74,66 +76,83 @@ export default function ReportIssue() {
               value={formData.title}
               onChange={handleChange}
               required
-              placeholder="Eg: Black Wallet"
+              placeholder="Eg: Leaking tap in bathroom"
               className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-400 focus:outline-none"
             />
           </div>
 
-          {/* Description */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Description
             </label>
             <textarea
               name="description"
-              rows="3"
+              rows="4"
               value={formData.description}
               onChange={handleChange}
               required
-              placeholder="Describe the item briefly"
+              placeholder="Describe the issue in brief"
               className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-400 focus:outline-none"
             />
           </div>
 
-          {/* Lost / Found Toggle */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Item Type
+              Category
             </label>
             <select
-              name="type"
-              value={formData.type}
+              name="category"
+              value={formData.category}
               onChange={handleChange}
               className="w-full px-4 py-2 border rounded-lg bg-white focus:ring-2 focus:ring-indigo-400 focus:outline-none"
             >
-              <option value="lost">Lost</option>
-              <option value="found">Found</option>
+              <option value="plumbing">Plumbing</option>
+              <option value="electrical">Electrical</option>
+              <option value="cleanliness">Cleanliness</option>
+              <option value="internet">Internet</option>
+              <option value="furniture">Furniture</option>
+              <option value="other">Other</option>
             </select>
           </div>
 
-          {/* Location */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Location
+              Priority
             </label>
-            <input
-              type="text"
-              name="location"
-              value={formData.location}
+            <select
+              name="priority"
+              value={formData.priority}
               onChange={handleChange}
-              required
-              placeholder="Eg: Hostel Block A, Library"
-              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-400 focus:outline-none"
-            />
+              className="w-full px-4 py-2 border rounded-lg bg-white focus:ring-2 focus:ring-indigo-400 focus:outline-none"
+            >
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+              <option value="emergency">Emergency</option>
+            </select>
           </div>
 
-          {/* Submit Button */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Visibility
+            </label>
+            <select
+              name="visibility"
+              value={formData.visibility}
+              onChange={handleChange}
+              className="w-full px-4 py-2 border rounded-lg bg-white focus:ring-2 focus:ring-indigo-400 focus:outline-none"
+            >
+              <option value="public">Public</option>
+              <option value="private">Private</option>
+            </select>
+          </div>
+
           <button
             type="submit"
             disabled={loading}
             className="w-full bg-indigo-600 text-white py-2.5 rounded-lg font-semibold hover:bg-indigo-700 transition disabled:opacity-60"
           >
-            {loading ? "Submitting..." : "Submit Report"}
+            {loading ? "Submitting..." : "Submit Issue"}
           </button>
         </form>
       </div>

@@ -20,11 +20,32 @@ const lostFoundSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+
+    // Date when item was lost/found (optional)
+    itemDate: Date,
+
+    // images: array of URLs (keep simple for now)
+    images: [String],
+
     status: {
       type: String,
-      enum: ["open", "resolved"],
+      enum: ["open", "claimed", "resolved"],
       default: "open",
     },
+
+    // Claim workflow
+    claimedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      default: null,
+    },
+    claimMessage: String,
+    claimStatus: {
+      type: String,
+      enum: ["none", "pending", "accepted", "rejected"],
+      default: "none",
+    },
+
     reportedBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",

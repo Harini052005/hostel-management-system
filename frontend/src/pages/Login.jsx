@@ -13,7 +13,7 @@ const Login = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
-      const res = await api.post("/auth/login", { email, password });
+      const res = await api.post("/v1/auth/login", { email, password });
       login(res.data.user, res.data.token);
       if (res.data.user.role === "student") {
       navigate("/dashboard");
